@@ -26,6 +26,9 @@ extern char trampoline[]; // trampoline.S
 // must be acquired before any p->lock.
 struct spinlock wait_lock;
 
+// In va, Call KSTACK to alloc double the size of the pagesize,
+// (include a guard memory page).
+// -------------------------------------------------
 // Allocate a page for each process's kernel stack.
 // Map it high in memory, followed by an invalid
 // guard page.
@@ -78,6 +81,9 @@ mycpu(void)
   return c;
 }
 
+// The myproc function actually looks up an array indexed by the number of the current CPU core,
+// which is hartid, and if you remember, we previously stored it in the tp register in the uservec function.
+// -------------------------------------------------
 // Return the current struct proc *, or zero if none.
 struct proc*
 myproc(void)

@@ -15,6 +15,10 @@ extern char etext[];  // kernel.ld sets this to end of kernel code.
 
 extern char trampoline[]; // trampoline.S
 
+// create and initializes the kernel page table.
+// Call kvmmap().
+// Call proc_mapstacks().
+// -----------------------------------------------
 // Make a direct-map page table for the kernel.
 pagetable_t
 kvmmake(void)
@@ -56,6 +60,10 @@ kvminit(void)
   kernel_pagetable = kvmmake();
 }
 
+// stap = kernel pagetable.(init)
+// when the satp register is set to point to a page table, 
+// that effectively turns on paging for that core.
+// -------------------------------------------------------------
 // Switch h/w page table register to the kernel's page table,
 // and enable paging.
 void
@@ -102,6 +110,10 @@ walk(pagetable_t pagetable, uint64 va, int alloc)
   return &pagetable[PX(0, va)];
 }
 
+// Use page table to map virtual addr to physical addr.
+// Must be VALD and must be "u" permission.
+// If error return -1.
+// -----------------------------------------------------------
 // Look up a virtual address, return the physical address,
 // or 0 if not mapped.
 // Can only be used to look up user pages.
@@ -125,6 +137,11 @@ walkaddr(pagetable_t pagetable, uint64 va)
   return pa;
 }
 
+// same as mappage().
+// Adds call to panic() on error.
+// Because we don't expect errors when we're creating the page table.
+// Used to build the kernel's page table.
+// -------------------------------------------
 // add a mapping to the kernel page table.
 // only used when booting.
 // does not flush TLB or enable paging.
@@ -164,6 +181,10 @@ mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
   return 0;
 }
 
+// For each page, set PTE to 0.(i.e., Not VALID)
+// If "do_free"... then call
+// Kfree() on each data page
+// ----------------------------------------------------------
 // Remove npages of mappings starting from va. va must be
 // page-aligned. The mappings must exist.
 // Optionally free the physical memory.

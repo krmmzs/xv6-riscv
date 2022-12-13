@@ -112,10 +112,15 @@ usertrapret(void)
   
   // set S Previous Privilege mode to User.
   unsigned long x = r_sstatus();
+  // This bit is 0 to indicate that the next time we execute sret, we want to return to user mode instead of supervisor mode
   x &= ~SSTATUS_SPP; // clear SPP to 0 for user mode
+  // The SPIE bit in this register controls whether to turn on the interrupt after the execution of sret
   x |= SSTATUS_SPIE; // enable interrupts in user mode
   w_sstatus(x);
 
+  // We executed the sret instruction at the end of the trampoline code.
+  // This instruction sets the program counter to the value of the SEPC register,
+  // so now we set the value of the SEPC register to the value of the previously saved user program counter.
   // set S Exception Program Counter to the saved user pc.
   w_sepc(p->trapframe->epc);
 
@@ -125,7 +130,7 @@ usertrapret(void)
   // jump to userret in trampoline.S at the top of memory, which 
   // switches to the user page table, restores user registers,
   // and switches to user mode with sret.
-  uint64 trampoline_userret = TRAMPOLINE + (userret - trampoline);
+  uint64 trampoline_userret = TRAMPOLINE + (userret - trampoline); // Calculate the address(userret in tampoline) where we will jump to the assembly code
   ((void (*)(uint64))trampoline_userret)(satp);
 }
 
@@ -135,6 +140,8 @@ void
 kerneltrap()
 {
   int which_dev = 0;
+  // Because ayieldmay have disturbedsepcand the previous mode insstatus,
+  // kerneltrapsaves them when it starts.
   uint64 sepc = r_sepc();
   uint64 sstatus = r_sstatus();
   uint64 scause = r_scause();
