@@ -23,6 +23,8 @@
 #include "proc.h"
 
 #define BACKSPACE 0x100
+
+// ctrl-@ is (0x00), ctrl-A is (0x01)
 #define C(x)  ((x)-'@')  // Control-x
 
 //
