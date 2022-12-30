@@ -6,7 +6,7 @@
 #include "spinlock.h"
 #include "proc.h"
 
-    uint64
+uint64
 sys_exit(void)
 {
     int n;
@@ -15,19 +15,19 @@ sys_exit(void)
     return 0;  // not reached
 }
 
-    uint64
+uint64
 sys_getpid(void)
 {
     return myproc()->pid;
 }
 
-    uint64
+uint64
 sys_fork(void)
 {
     return fork();
 }
 
-    uint64
+uint64
 sys_wait(void)
 {
     uint64 p;
@@ -35,7 +35,7 @@ sys_wait(void)
     return wait(p);
 }
 
-    uint64
+uint64
 sys_sbrk(void)
 {
     uint64 addr;
@@ -48,7 +48,7 @@ sys_sbrk(void)
     return addr;
 }
 
-    uint64
+uint64
 sys_sleep(void)
 {
     int n;
@@ -68,7 +68,7 @@ sys_sleep(void)
     return 0;
 }
 
-    uint64
+uint64
 sys_kill(void)
 {
     int pid;
@@ -79,7 +79,7 @@ sys_kill(void)
 
 // return how many clock tick interrupts have occurred
 // since start.
-    uint64
+uint64
 sys_uptime(void)
 {
     uint xticks;
