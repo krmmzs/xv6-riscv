@@ -11,7 +11,7 @@
 
 char *argv[] = { "sh", 0 };
 
-    int
+int
 main(void)
 {
     int pid, wpid;

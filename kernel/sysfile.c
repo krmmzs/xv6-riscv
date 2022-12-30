@@ -18,7 +18,7 @@
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
-    static int
+static int
 argfd(int n, int *pfd, struct file **pf)
 {
     int fd;
@@ -36,7 +36,7 @@ argfd(int n, int *pfd, struct file **pf)
 
 // Allocate a file descriptor for the given file.
 // Takes over file reference from caller on success.
-    static int
+static int
 fdalloc(struct file *f)
 {
     int fd;
@@ -51,7 +51,7 @@ fdalloc(struct file *f)
     return -1;
 }
 
-    uint64
+uint64
 sys_dup(void)
 {
     struct file *f;
@@ -65,7 +65,7 @@ sys_dup(void)
     return fd;
 }
 
-    uint64
+uint64
 sys_read(void)
 {
     struct file *f;
@@ -79,7 +79,7 @@ sys_read(void)
     return fileread(f, p, n);
 }
 
-    uint64
+uint64
 sys_write(void)
 {
     struct file *f;
@@ -94,7 +94,7 @@ sys_write(void)
     return filewrite(f, p, n);
 }
 
-    uint64
+uint64
 sys_close(void)
 {
     int fd;
@@ -107,7 +107,7 @@ sys_close(void)
     return 0;
 }
 
-    uint64
+uint64
 sys_fstat(void)
 {
     struct file *f;
@@ -120,7 +120,7 @@ sys_fstat(void)
 }
 
 // Create the path new as a link to the same inode as old.
-    uint64
+uint64
 sys_link(void)
 {
     char name[DIRSIZ], new[MAXPATH], old[MAXPATH];
@@ -170,7 +170,7 @@ bad:
 }
 
 // Is the directory dp empty except for "." and ".." ?
-    static int
+static int
 isdirempty(struct inode *dp)
 {
     int off;
@@ -185,7 +185,7 @@ isdirempty(struct inode *dp)
     return 1;
 }
 
-    uint64
+uint64
 sys_unlink(void)
 {
     struct inode *ip, *dp;
@@ -242,7 +242,7 @@ bad:
     return -1;
 }
 
-    static struct inode*
+static struct inode*
 create(char *path, short type, short major, short minor)
 {
     struct inode *ip, *dp;
@@ -274,7 +274,7 @@ create(char *path, short type, short major, short minor)
     iupdate(ip);
 
     if(type == T_DIR){  // Create . and .. entries.
-                        // No ip->nlink++ for ".": avoid cyclic ref count.
+        // No ip->nlink++ for ".": avoid cyclic ref count.
         if(dirlink(ip, ".", ip->inum) < 0 || dirlink(ip, "..", dp->inum) < 0)
             goto fail;
     }
@@ -301,7 +301,7 @@ fail:
     return 0;
 }
 
-    uint64
+uint64
 sys_open(void)
 {
     char path[MAXPATH];
@@ -370,7 +370,7 @@ sys_open(void)
     return fd;
 }
 
-    uint64
+uint64
 sys_mkdir(void)
 {
     char path[MAXPATH];
@@ -386,7 +386,7 @@ sys_mkdir(void)
     return 0;
 }
 
-    uint64
+uint64
 sys_mknod(void)
 {
     struct inode *ip;
@@ -397,7 +397,7 @@ sys_mknod(void)
     argint(1, &major);
     argint(2, &minor);
     if((argstr(0, path, MAXPATH)) < 0 ||
-            (ip = create(path, T_DEVICE, major, minor)) == 0){
+        (ip = create(path, T_DEVICE, major, minor)) == 0){
         end_op();
         return -1;
     }
@@ -406,7 +406,7 @@ sys_mknod(void)
     return 0;
 }
 
-    uint64
+uint64
 sys_chdir(void)
 {
     char path[MAXPATH];
@@ -431,7 +431,7 @@ sys_chdir(void)
     return 0;
 }
 
-    uint64
+uint64
 sys_exec(void)
 {
     char path[MAXPATH], *argv[MAXARG];
@@ -474,7 +474,7 @@ bad:
     return -1;
 }
 
-    uint64
+uint64
 sys_pipe(void)
 {
     uint64 fdarray; // user pointer to array of two integers
@@ -494,7 +494,7 @@ sys_pipe(void)
         return -1;
     }
     if(copyout(p->pagetable, fdarray, (char*)&fd0, sizeof(fd0)) < 0 ||
-            copyout(p->pagetable, fdarray+sizeof(fd0), (char *)&fd1, sizeof(fd1)) < 0){
+        copyout(p->pagetable, fdarray+sizeof(fd0), (char *)&fd1, sizeof(fd1)) < 0){
         p->ofile[fd0] = 0;
         p->ofile[fd1] = 0;
         fileclose(rf);

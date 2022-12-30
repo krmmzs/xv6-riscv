@@ -4,7 +4,7 @@
 
 char buf[512];
 
-    void
+void
 wc(int fd, char *name)
 {
     int i, n;
@@ -20,9 +20,9 @@ wc(int fd, char *name)
             if(strchr(" \r\t\n\v", buf[i]))
                 inword = 0;
             else if(!inword){
-                w++;
-                inword = 1;
-            }
+                    w++;
+                    inword = 1;
+                }
         }
     }
     if(n < 0){
@@ -32,7 +32,7 @@ wc(int fd, char *name)
     printf("%d %d %d %s\n", l, w, c, name);
 }
 
-    int
+int
 main(int argc, char *argv[])
 {
     int fd, i;

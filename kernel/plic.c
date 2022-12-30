@@ -8,7 +8,7 @@
 // the riscv Platform Level Interrupt Controller (PLIC).
 //
 
-    void
+void
 plicinit(void)
 {
     // set desired IRQ priorities non-zero (otherwise disabled).
@@ -16,7 +16,7 @@ plicinit(void)
     *(uint32*)(PLIC + VIRTIO0_IRQ*4) = 1;
 }
 
-    void
+void
 plicinithart(void)
 {
     int hart = cpuid();
@@ -30,7 +30,7 @@ plicinithart(void)
 }
 
 // ask the PLIC what interrupt we should serve.
-    int
+int
 plic_claim(void)
 {
     int hart = cpuid();
@@ -39,7 +39,7 @@ plic_claim(void)
 }
 
 // tell the PLIC we've served this IRQ.
-    void
+void
 plic_complete(int irq)
 {
     int hart = cpuid();

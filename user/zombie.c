@@ -5,7 +5,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-    int
+int
 main(void)
 {
     if(fork() > 0)

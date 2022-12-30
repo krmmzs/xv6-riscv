@@ -6,7 +6,7 @@
 //
 // wrapper so that it's OK if main() does not call exit().
 //
-    void
+void
 _main()
 {
     extern int main();
@@ -14,7 +14,7 @@ _main()
     exit(0);
 }
 
-    char*
+char*
 strcpy(char *s, const char *t)
 {
     char *os;
@@ -25,7 +25,7 @@ strcpy(char *s, const char *t)
     return os;
 }
 
-    int
+int
 strcmp(const char *p, const char *q)
 {
     while(*p && *p == *q)
@@ -33,7 +33,7 @@ strcmp(const char *p, const char *q)
     return (uchar)*p - (uchar)*q;
 }
 
-    uint
+uint
 strlen(const char *s)
 {
     int n;
@@ -43,7 +43,7 @@ strlen(const char *s)
     return n;
 }
 
-    void*
+void*
 memset(void *dst, int c, uint n)
 {
     char *cdst = (char *) dst;
@@ -54,7 +54,7 @@ memset(void *dst, int c, uint n)
     return dst;
 }
 
-    char*
+char*
 strchr(const char *s, char c)
 {
     for(; *s; s++)
@@ -63,7 +63,7 @@ strchr(const char *s, char c)
     return 0;
 }
 
-    char*
+char*
 gets(char *buf, int max)
 {
     int i, cc;
@@ -81,7 +81,7 @@ gets(char *buf, int max)
     return buf;
 }
 
-    int
+int
 stat(const char *n, struct stat *st)
 {
     int fd;
@@ -95,7 +95,7 @@ stat(const char *n, struct stat *st)
     return r;
 }
 
-    int
+int
 atoi(const char *s)
 {
     int n;
@@ -106,7 +106,7 @@ atoi(const char *s)
     return n;
 }
 
-    void*
+void*
 memmove(void *vdst, const void *vsrc, int n)
 {
     char *dst;
@@ -126,7 +126,7 @@ memmove(void *vdst, const void *vsrc, int n)
     return vdst;
 }
 
-    int
+int
 memcmp(const void *s1, const void *s2, uint n)
 {
     const char *p1 = s1, *p2 = s2;
@@ -140,7 +140,7 @@ memcmp(const void *s1, const void *s2, uint n)
     return 0;
 }
 
-    void *
+void *
 memcpy(void *dst, const void *src, uint n)
 {
     return memmove(dst, src, n);

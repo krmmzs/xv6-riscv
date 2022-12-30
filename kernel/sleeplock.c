@@ -9,7 +9,7 @@
 #include "proc.h"
 #include "sleeplock.h"
 
-    void
+void
 initsleeplock(struct sleeplock *lk, char *name)
 {
     initlock(&lk->lk, "sleep lock");
@@ -18,7 +18,7 @@ initsleeplock(struct sleeplock *lk, char *name)
     lk->pid = 0;
 }
 
-    void
+void
 acquiresleep(struct sleeplock *lk)
 {
     acquire(&lk->lk);
@@ -30,7 +30,7 @@ acquiresleep(struct sleeplock *lk)
     release(&lk->lk);
 }
 
-    void
+void
 releasesleep(struct sleeplock *lk)
 {
     acquire(&lk->lk);
@@ -40,7 +40,7 @@ releasesleep(struct sleeplock *lk)
     release(&lk->lk);
 }
 
-    int
+int
 holdingsleep(struct sleeplock *lk)
 {
     int r;

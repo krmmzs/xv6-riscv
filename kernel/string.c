@@ -1,6 +1,6 @@
 #include "types.h"
 
-    void*
+void*
 memset(void *dst, int c, uint n)
 {
     char *cdst = (char *) dst;
@@ -11,7 +11,7 @@ memset(void *dst, int c, uint n)
     return dst;
 }
 
-    int
+int
 memcmp(const void *v1, const void *v2, uint n)
 {
     const uchar *s1, *s2;
@@ -27,7 +27,7 @@ memcmp(const void *v1, const void *v2, uint n)
     return 0;
 }
 
-    void*
+void*
 memmove(void *dst, const void *src, uint n)
 {
     const char *s;
@@ -44,20 +44,20 @@ memmove(void *dst, const void *src, uint n)
         while(n-- > 0)
             *--d = *--s;
     } else
-        while(n-- > 0)
-            *d++ = *s++;
+    while(n-- > 0)
+        *d++ = *s++;
 
     return dst;
 }
 
 // memcpy exists to placate GCC.  Use memmove.
-    void*
+void*
 memcpy(void *dst, const void *src, uint n)
 {
     return memmove(dst, src, n);
 }
 
-    int
+int
 strncmp(const char *p, const char *q, uint n)
 {
     while(n > 0 && *p && *p == *q)
@@ -67,7 +67,7 @@ strncmp(const char *p, const char *q, uint n)
     return (uchar)*p - (uchar)*q;
 }
 
-    char*
+char*
 strncpy(char *s, const char *t, int n)
 {
     char *os;
@@ -81,7 +81,7 @@ strncpy(char *s, const char *t, int n)
 }
 
 // Like strncpy but guaranteed to NUL-terminate.
-    char*
+char*
 safestrcpy(char *s, const char *t, int n)
 {
     char *os;
@@ -95,7 +95,7 @@ safestrcpy(char *s, const char *t, int n)
     return os;
 }
 
-    int
+int
 strlen(const char *s)
 {
     int n;

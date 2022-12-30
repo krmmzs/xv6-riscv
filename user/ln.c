@@ -2,7 +2,7 @@
 #include "kernel/stat.h"
 #include "user/user.h"
 
-    int
+int
 main(int argc, char *argv[])
 {
     if(argc != 3){

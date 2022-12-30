@@ -3,7 +3,7 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
-    char*
+char*
 fmtname(char *path)
 {
     static char buf[DIRSIZ+1];
@@ -22,7 +22,7 @@ fmtname(char *path)
     return buf;
 }
 
-    void
+void
 ls(char *path)
 {
     char buf[512], *p;
@@ -71,7 +71,7 @@ ls(char *path)
     close(fd);
 }
 
-    int
+int
 main(int argc, char *argv[])
 {
     int i;

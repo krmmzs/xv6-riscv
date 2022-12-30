@@ -19,14 +19,14 @@ struct {
     struct file file[NFILE];
 } ftable;
 
-    void
+void
 fileinit(void)
 {
     initlock(&ftable.lock, "ftable");
 }
 
 // Allocate a file structure.
-    struct file*
+struct file*
 filealloc(void)
 {
     struct file *f;
@@ -44,7 +44,7 @@ filealloc(void)
 }
 
 // Increment ref count for file f.
-    struct file*
+struct file*
 filedup(struct file *f)
 {
     acquire(&ftable.lock);
@@ -56,7 +56,7 @@ filedup(struct file *f)
 }
 
 // Close file f.  (Decrement ref count, close when reaches 0.)
-    void
+void
 fileclose(struct file *f)
 {
     struct file ff;
@@ -84,7 +84,7 @@ fileclose(struct file *f)
 
 // Get metadata about file f.
 // addr is a user virtual address, pointing to a struct stat.
-    int
+int
 filestat(struct file *f, uint64 addr)
 {
     struct proc *p = myproc();
@@ -103,7 +103,7 @@ filestat(struct file *f, uint64 addr)
 
 // Read from file f.
 // addr is a user virtual address.
-    int
+int
 fileread(struct file *f, uint64 addr, int n)
 {
     int r = 0;
@@ -131,7 +131,7 @@ fileread(struct file *f, uint64 addr, int n)
 
 // Write to file f.
 // addr is a user virtual address.
-    int
+int
 filewrite(struct file *f, uint64 addr, int n)
 {
     int r, ret = 0;

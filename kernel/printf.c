@@ -25,7 +25,7 @@ static struct {
 
 static char digits[] = "0123456789abcdef";
 
-    static void
+static void
 printint(int xx, int base, int sign)
 {
     char buf[16];
@@ -49,7 +49,7 @@ printint(int xx, int base, int sign)
         consputc(buf[i]);
 }
 
-    static void
+static void
 printptr(uint64 x)
 {
     int i;
@@ -60,7 +60,7 @@ printptr(uint64 x)
 }
 
 // Print to the console. only understands %d, %x, %p, %s.
-    void
+void
 printf(char *fmt, ...)
 {
     va_list ap;
@@ -115,7 +115,7 @@ printf(char *fmt, ...)
         release(&pr.lock);
 }
 
-    void
+void
 panic(char *s)
 {
     pr.locking = 0;
@@ -127,7 +127,7 @@ panic(char *s)
         ;
 }
 
-    void
+void
 printfinit(void)
 {
     initlock(&pr.lock, "pr");

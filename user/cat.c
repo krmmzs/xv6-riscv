@@ -4,7 +4,7 @@
 
 char buf[512];
 
-    void
+void
 cat(int fd)
 {
     int n;
@@ -21,7 +21,7 @@ cat(int fd)
     }
 }
 
-    int
+int
 main(int argc, char *argv[])
 {
     int fd, i;

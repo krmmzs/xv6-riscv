@@ -19,7 +19,7 @@ int flags2perm(int flags)
     return perm;
 }
 
-    int
+int
 exec(char *path, char **argv)
 {
     char *s, *last;
@@ -144,7 +144,7 @@ bad:
 // va must be page-aligned
 // and the pages from va to va+sz must already be mapped.
 // Returns 0 on success, -1 on failure.
-    static int
+static int
 loadseg(pagetable_t pagetable, uint64 va, struct inode *ip, uint offset, uint sz)
 {
     uint i, n;

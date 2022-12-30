@@ -8,7 +8,7 @@
 #include "proc.h"
 #include "defs.h"
 
-    void
+void
 initlock(struct spinlock *lk, char *name)
 {
     lk->name = name;
@@ -18,7 +18,7 @@ initlock(struct spinlock *lk, char *name)
 
 // Acquire the lock.
 // Loops (spins) until the lock is acquired.
-    void
+void
 acquire(struct spinlock *lk)
 {
     push_off(); // disable interrupts to avoid deadlock.
@@ -43,7 +43,7 @@ acquire(struct spinlock *lk)
 }
 
 // Release the lock.
-    void
+void
 release(struct spinlock *lk)
 {
     if(!holding(lk))
@@ -73,7 +73,7 @@ release(struct spinlock *lk)
 
 // Check whether this cpu is holding the lock.
 // Interrupts must be off.
-    int
+int
 holding(struct spinlock *lk)
 {
     int r;
@@ -85,7 +85,7 @@ holding(struct spinlock *lk)
 // it takes two pop_off()s to undo two push_off()s.  Also, if interrupts
 // are initially off, then push_off, pop_off leaves them off.
 
-    void
+void
 push_off(void)
 {
     int old = intr_get();
@@ -96,7 +96,7 @@ push_off(void)
     mycpu()->noff += 1;
 }
 
-    void
+void
 pop_off(void)
 {
     struct cpu *c = mycpu();

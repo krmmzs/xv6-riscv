@@ -21,7 +21,7 @@ typedef union header Header;
 static Header base;
 static Header *freep;
 
-    void
+void
 free(void *ap)
 {
     Header *bp, *p;
@@ -34,16 +34,16 @@ free(void *ap)
         bp->s.size += p->s.ptr->s.size;
         bp->s.ptr = p->s.ptr->s.ptr;
     } else
-        bp->s.ptr = p->s.ptr;
+    bp->s.ptr = p->s.ptr;
     if(p + p->s.size == bp){
         p->s.size += bp->s.size;
         p->s.ptr = bp->s.ptr;
     } else
-        p->s.ptr = bp;
+    p->s.ptr = bp;
     freep = p;
 }
 
-    static Header*
+static Header*
 morecore(uint nu)
 {
     char *p;
@@ -60,7 +60,7 @@ morecore(uint nu)
     return freep;
 }
 
-    void*
+void*
 malloc(uint nbytes)
 {
     Header *p, *prevp;
@@ -76,10 +76,10 @@ malloc(uint nbytes)
             if(p->s.size == nunits)
                 prevp->s.ptr = p->s.ptr;
             else {
-                p->s.size -= nunits;
-                p += p->s.size;
-                p->s.size = nunits;
-            }
+                    p->s.size -= nunits;
+                    p += p->s.size;
+                    p->s.size = nunits;
+                }
             freep = prevp;
             return (void*)(p + 1);
         }

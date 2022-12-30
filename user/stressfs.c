@@ -13,7 +13,7 @@
 #include "kernel/fs.h"
 #include "kernel/fcntl.h"
 
-    int
+int
 main(int argc, char *argv[])
 {
     int fd, i;

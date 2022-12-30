@@ -13,7 +13,7 @@
 #include "kernel/riscv.h"
 
 // from FreeBSD.
-    int
+int
 do_rand(unsigned long *ctx)
 {
     /*
@@ -41,13 +41,13 @@ do_rand(unsigned long *ctx)
 
 unsigned long rand_next = 1;
 
-    int
+int
 rand(void)
 {
     return (do_rand(&rand_next));
 }
 
-    void
+void
 go(int which_child)
 {
     int fd = -1;
@@ -293,7 +293,7 @@ go(int which_child)
     }
 }
 
-    void
+void
 iter()
 {
     unlink("a");
@@ -333,7 +333,7 @@ iter()
     exit(0);
 }
 
-    int
+int
 main()
 {
     while(1){

@@ -12,7 +12,7 @@
 void freerange(void *pa_start, void *pa_end);
 
 extern char end[]; // first address after kernel.
-                   // defined by kernel.ld.
+// defined by kernel.ld.
 
 struct run {
     struct run *next;
@@ -23,14 +23,14 @@ struct {
     struct run *freelist;
 } kmem;
 
-    void
+void
 kinit()
 {
     initlock(&kmem.lock, "kmem");
     freerange(end, (void*)PHYSTOP);
 }
 
-    void
+void
 freerange(void *pa_start, void *pa_end)
 {
     char *p;
@@ -43,7 +43,7 @@ freerange(void *pa_start, void *pa_end)
 // which normally should have been returned by a
 // call to kalloc().  (The exception is when
 // initializing the allocator; see kinit above.)
-    void
+void
 kfree(void *pa)
 {
     struct run *r;
@@ -65,7 +65,7 @@ kfree(void *pa)
 // Allocate one 4096-byte page of physical memory.
 // Returns a pointer that the kernel can use.
 // Returns 0 if the memory cannot be allocated.
-    void *
+void *
 kalloc(void)
 {
     struct run *r;

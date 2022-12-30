@@ -33,7 +33,7 @@ struct {
     struct buf head;
 } bcache;
 
-    void
+void
 binit(void)
 {
     struct buf *b;
@@ -55,7 +55,7 @@ binit(void)
 // Look through buffer cache for block on device dev.
 // If not found, allocate a buffer.
 // In either case, return locked buffer.
-    static struct buf*
+static struct buf*
 bget(uint dev, uint blockno)
 {
     struct buf *b;
@@ -89,7 +89,7 @@ bget(uint dev, uint blockno)
 }
 
 // Return a locked buf with the contents of the indicated block.
-    struct buf*
+struct buf*
 bread(uint dev, uint blockno)
 {
     struct buf *b;
@@ -103,7 +103,7 @@ bread(uint dev, uint blockno)
 }
 
 // Write b's contents to disk.  Must be locked.
-    void
+void
 bwrite(struct buf *b)
 {
     if(!holdingsleep(&b->lock))
@@ -113,7 +113,7 @@ bwrite(struct buf *b)
 
 // Release a locked buffer.
 // Move to the head of the most-recently-used list.
-    void
+void
 brelse(struct buf *b)
 {
     if(!holdingsleep(&b->lock))

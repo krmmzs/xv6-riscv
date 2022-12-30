@@ -16,14 +16,14 @@ void kernelvec();
 
 extern int devintr();
 
-    void
+void
 trapinit(void)
 {
     initlock(&tickslock, "time");
 }
 
 // set up to take exceptions and traps while in the kernel.
-    void
+void
 trapinithart(void)
 {
     w_stvec((uint64)kernelvec);
@@ -33,7 +33,7 @@ trapinithart(void)
 // handle an interrupt, exception, or system call from user space.
 // called from trampoline.S
 //
-    void
+void
 usertrap(void)
 {
     int which_dev = 0;
@@ -86,7 +86,7 @@ usertrap(void)
 //
 // return to user space
 //
-    void
+void
 usertrapret(void)
 {
     struct proc *p = myproc();
@@ -114,7 +114,7 @@ usertrapret(void)
     unsigned long x = r_sstatus();
     // This bit is 0 to indicate that the next time we execute sret, we want to return to user mode instead of supervisor mode
     x &= ~SSTATUS_SPP; // clear SPP to 0 for user mode
-                       // The SPIE bit in this register controls whether to turn on the interrupt after the execution of sret
+    // The SPIE bit in this register controls whether to turn on the interrupt after the execution of sret
     x |= SSTATUS_SPIE; // enable interrupts in user mode
     w_sstatus(x);
 
@@ -136,7 +136,7 @@ usertrapret(void)
 
 // interrupts and exceptions from kernel code go here via kernelvec,
 // on whatever the current kernel stack is.
-    void 
+void 
 kerneltrap()
 {
     int which_dev = 0;
@@ -167,7 +167,7 @@ kerneltrap()
     w_sstatus(sstatus);
 }
 
-    void
+void
 clockintr()
 {
     acquire(&tickslock);
@@ -181,13 +181,13 @@ clockintr()
 // returns 2 if timer interrupt,
 // 1 if other device,
 // 0 if not recognized.
-    int
+int
 devintr()
 {
     uint64 scause = r_scause();
 
     if((scause & 0x8000000000000000L) &&
-            (scause & 0xff) == 9){
+        (scause & 0xff) == 9){
         // this is a supervisor external interrupt, via PLIC.
 
         // irq indicates which device interrupted.
