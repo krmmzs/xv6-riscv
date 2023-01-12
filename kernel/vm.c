@@ -317,6 +317,11 @@ uvmfree(pagetable_t pagetable, uint64 sz)
     freewalk(pagetable);
 }
 
+// copies all pages up to "size" from "old" address 
+// space to "new" address space.
+// used in "fork" syscall.
+// Allocate new pages, copies data; adds new pagetable.
+// --------------------------------------------
 // Given a parent process's page table, copy
 // its memory into a child's page table.
 // Copies both the page table and the

@@ -22,6 +22,9 @@ void
 acquire(struct spinlock *lk)
 {
     push_off(); // disable interrupts to avoid deadlock.
+
+    // check one deadlock condition: lock already held by this cpu
+    // (one process acquire same lock twice).
     if(holding(lk))
         panic("acquire");
 
