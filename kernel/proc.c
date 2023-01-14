@@ -466,10 +466,12 @@ scheduler(void)
                 // before jumping back to us.
                 p->state = RUNNING;
                 c->proc = p;
-                swtch(&c->context, &p->context);
+                swtch(&c->context, &p->context); // often return here from swtch in sched().
 
                 // Process is done running for now.
                 // It should have changed its p->state before coming back.
+                // Since we have stopped the process,
+                // we need to erase the logs for the process.
                 c->proc = 0;
             }
             release(&p->lock);
@@ -500,8 +502,8 @@ sched(void)
         panic("sched interruptible");
 
     intena = mycpu()->intena;
-    swtch(&p->context, &mycpu()->context);
-    mycpu()->intena = intena;
+    swtch(&p->context, &mycpu()->context); // returns here from swtch() in scheduler()
+    mycpu()->intena = intena; // restore intena
 }
 
 // Give up the CPU for one scheduling round.
