@@ -4,7 +4,7 @@ struct buf {
     uint dev;
     uint blockno;
     struct sleeplock lock;
-    uint refcnt;
+    uint refcnt; // whether this block is in use and the use count.
     struct buf *prev; // LRU cache list
     struct buf *next;
     uchar data[BSIZE];

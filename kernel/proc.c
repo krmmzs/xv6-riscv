@@ -561,11 +561,15 @@ sleep(void *chan, struct spinlock *lk)
 
     sched();
 
+    // will return here after wakeup.
     // Tidy up.
     p->chan = 0;
 
     // Reacquire original lock.
     release(&p->lock);
+    // By doing this, (in wakeup()) the first wakeuped thread will
+    // held the condition lock(will do something), and the other threads
+    // will wait in the acquire() for the when re-locking the condition lock.
     acquire(lk);
 }
 

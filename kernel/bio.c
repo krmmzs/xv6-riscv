@@ -67,6 +67,9 @@ bget(uint dev, uint blockno)
         if(b->dev == dev && b->blockno == blockno){
             b->refcnt++;
             release(&bcache.lock);
+            // It is safe to acquire sleep outside bcache.lock critical section
+            // because non-zero will prevents the buffer from being re-used
+            // for a different block.
             acquiresleep(&b->lock);
             return b;
         }
