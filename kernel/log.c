@@ -51,6 +51,13 @@ struct log log;
 static void recover_from_log(void);
 static void commit();
 
+// On CRASH + REBOOT
+// Read Log Header.
+// If n = 0, do nothing.(Any in-progress transactions is lost.)
+// Go thru array.
+// Write block from Log area to MAIN BLOCK AREA.
+// n = 0
+// Write HEADER to disk.
 void
 initlog(int dev, struct superblock *sb)
 {
@@ -123,6 +130,10 @@ recover_from_log(void)
 }
 
 // called at the start of each FS system call.
+// -----------------------------------------------
+// If another thread is committing, wait.
+// If there are not enough log slots, wait.
+// Increment a counter.
 void
 begin_op(void)
 {
@@ -143,6 +154,13 @@ begin_op(void)
 
 // called at the end of each FS system call.
 // commits if this was the last outstanding operation.
+// ----------------------------------------------------
+// Decrement the counter. If > 0, do nothing. Retrun immediately.
+// (Must not write log unless other trans have done.)
+// Do the "COMMIT" -> Perform all write to disk.
+// Empty the log.
+// Wake up any sleeping 
+//
 void
 end_op(void)
 {
@@ -156,7 +174,7 @@ end_op(void)
         do_commit = 1;
         log.committing = 1;
     } else {
-        // begin_op() may be waiting for log space,
+        // begin_op() may be waiting for log spac,
         // and decrementing log.outstanding has decreased
         // the amount of reserved space.
         wakeup(&log);
@@ -190,6 +208,14 @@ write_log(void)
     }
 }
 
+// commit has two phases:  
+// go thru array. 
+// write block from buffer(cache) to log area.
+// Write HEADER to disk.
+// go thru array.
+// Write block from buffer(cache) to MAIN BLOCk AREA.(commit happens here.)
+// n = 0(means delete the log)
+// Write HEADER to disk.
 static void
 commit()
 {
@@ -211,6 +237,14 @@ commit()
 //   modify bp->data[]
 //   log_write(bp)
 //   brelse(bp)
+//   ----------------------------------------------------------------
+//   Must delay write until END.
+//   "PIN" the buffer
+//   Find next available log slot.
+//   Add entry to array.
+//   Increment "n".
+//   But first, check if the block is already in the log.
+//   If so, just reuse that lag slot.
 void
 log_write(struct buf *b)
 {

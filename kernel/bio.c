@@ -23,6 +23,13 @@
 #include "fs.h"
 #include "buf.h"
 
+// bcache.lock
+// bcache.head
+// but not bcache.buf[]
+// means that the buffer cache is list
+// this spinlock is used to protect
+// buf.next, prev, refcnt, dev, blockno
+//
 struct {
     struct spinlock lock;
     struct buf buf[NBUF];
@@ -92,6 +99,9 @@ bget(uint dev, uint blockno)
 }
 
 // Return a locked buf with the contents of the indicated block.
+// --------------------------------------------------------------
+// Search buffer cache. If found, use that.
+// Otherwise, allocate buffer and read from disk.
 struct buf*
 bread(uint dev, uint blockno)
 {
@@ -139,6 +149,8 @@ brelse(struct buf *b)
     release(&bcache.lock);
 }
 
+// pin the refcnt in buffer.
+// only called by log_write().
 void
 bpin(struct buf *b) {
     acquire(&bcache.lock);
@@ -146,6 +158,8 @@ bpin(struct buf *b) {
     release(&bcache.lock);
 }
 
+// pin the refcnt in buffer.
+// only called by install_trans().
 void
 bunpin(struct buf *b) {
     acquire(&bcache.lock);

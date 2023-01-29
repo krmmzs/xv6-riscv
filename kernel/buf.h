@@ -1,3 +1,6 @@
+// disk buffer
+// sleeplock protects valid, disk, data[]
+// other fields are protected by bcache.lock(spinlock)
 struct buf {
     int valid;   // has data been read from disk?
     int disk;    // does disk "own" buf?

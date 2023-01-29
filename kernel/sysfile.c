@@ -130,11 +130,13 @@ sys_link(void)
         return -1;
 
     begin_op();
+    // check: old exists.
     if((ip = namei(old)) == 0){
         end_op();
         return -1;
     }
 
+    // check: old is not a directory.
     ilock(ip);
     if(ip->type == T_DIR){
         iunlockput(ip);
@@ -146,6 +148,8 @@ sys_link(void)
     iupdate(ip);
     iunlock(ip);
 
+    // find the parent directory and final path element of new.
+    // and creates a new directory entry pointing atold’s inode.
     if((dp = nameiparent(new, name)) == 0)
         goto bad;
     ilock(dp);
@@ -253,6 +257,7 @@ create(char *path, short type, short major, short minor)
 
     ilock(dp);
 
+    // check whether the name already exists.
     if((ip = dirlookup(dp, name, 0)) != 0){
         iunlockput(dp);
         ilock(ip);
@@ -262,6 +267,7 @@ create(char *path, short type, short major, short minor)
         return 0;
     }
 
+    // If the name does not already exist, create a new inode with ialloc.
     if((ip = ialloc(dp->dev, type)) == 0){
         iunlockput(dp);
         return 0;
@@ -327,6 +333,7 @@ sys_open(void)
             end_op();
             return -1;
         }
+        // Create returns a locked inode, butnameidoes not, so sys_open must lock the inode itself.
         ilock(ip);
         if(ip->type == T_DIR && omode != O_RDONLY){
             iunlockput(ip);
