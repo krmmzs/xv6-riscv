@@ -152,6 +152,7 @@ brelse(struct buf *b)
 // Means: pin the block in the buffer cache.
 // Prevent the cache from withdrawing the corresponding block
 // by increasing the reference count to the block cache
+// based on write-ahead rule and freeing rule.
 // pin the refcnt in buffer.
 // only called by log_write().
 void
