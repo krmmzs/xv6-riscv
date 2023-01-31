@@ -149,6 +149,9 @@ brelse(struct buf *b)
     release(&bcache.lock);
 }
 
+// Means: pin the block in the buffer cache.
+// Prevent the cache from withdrawing the corresponding block
+// by increasing the reference count to the block cache
 // pin the refcnt in buffer.
 // only called by log_write().
 void
