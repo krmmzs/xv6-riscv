@@ -48,8 +48,10 @@ binit(void)
     initlock(&bcache.lock, "bcache");
 
     // Create linked list of buffers
+    // init head node
     bcache.head.prev = &bcache.head;
     bcache.head.next = &bcache.head;
+    // head-in insert node
     for(b = bcache.buf; b < bcache.buf+NBUF; b++){
         b->next = bcache.head.next;
         b->prev = &bcache.head;
