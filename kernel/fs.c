@@ -406,6 +406,8 @@ iunlockput(struct inode *ip)
 // Consult direct and indirect pointers to locate the block on disk.
 // If that block is not allocated, allocate a free block.
 // Update the inode to add it to the file.
+// You can view bmap() as mapping a file's logical block numbers into disk block numbers.
+
 static uint
 bmap(struct inode *ip, uint bn)
 {

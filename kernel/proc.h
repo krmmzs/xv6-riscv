@@ -19,6 +19,7 @@ struct context {
 };
 
 // Per-CPU state.
+// thread-local storage (TLS) for the current process.
 struct cpu {
     struct proc *proc;          // The process running on this cpu, or null.
     struct context context;     // swtch() here to enter scheduler().
